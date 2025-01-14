@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Minha Equipe</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #fffbe6;
+            margin: 0;
+            padding: 0;
+        }
+        .container {
+            padding: 20px;
+            max-width: 600px;
+            margin: 0 auto;
+            background-color: #ffec99;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        h2 {
+            text-align: center;
+            color: #333;
+        }
+        .info {
+            margin: 15px 0;
+        }
+        .info label {
+            font-weight: bold;
+            color: #555;
+        }
+        .info span {
+            display: block;
+            margin-top: 5px;
+            font-size: 16px;
+            color: #333;
+        }
+        .button {
+            display: inline-block;
+            margin-top: 10px;
+            padding: 10px 15px;
+            background-color: #ffcc33;
+            color: white;
+            text-decoration: none;
+            border-radius: 4px;
+            text-align: center;
+        }
+        .button:hover {
+            background-color: #ffb300;
+        }
+        .activities {
+            margin-top: 20px;
+        }
+        .activity {
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            margin-bottom: 10px;
+            background-color: #fff;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>Minha Equipe</h2>
+        <div class="info">
+            <label>Meu Código de Convite:</label>
+            <span id="codigo-convite">Carregando...</span>
+            <a href="#" class="button" onclick="copiarCodigo()">Copiar</a>
+        </div>
+        <div class="info">
+            <label>Lucro Total Recebido com Convites:</label>
+            <span id="lucro-total">0.00 AKZ</span>
+        </div>
+        <div class="activities">
+            <h3>Atividades da Equipe</h3>
+            <div id="atividades">
+                <p>Sem atividades recentes.</p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function atualizarEquipe() {
+            const loggedUser = JSON.parse(localStorage.getItem("loggedUser"));
+            if (!loggedUser) {
+                alert("Faça login para continuar.");
+                window.location.href = "login.html";
+                return;
+            }
+
+            // Exibir código de convite
+            document.getElementById("codigo-convite").innerText = loggedUser.numero;
+
+            // Calcular lucros
+            const atividades = loggedUser.atividadesEquipe || [];
+            let lucroTotal = 0;
+            const atividadesHtml = atividades.map(atividade => {
+                lucroTotal += atividade.lucroRecebido || 0;
+                return `<div class="activity">
+                    <p>${atividade.nome} depositou ${atividade.valorDepositado || 0} AKZ</p>
+                    <p>Você ganhou ${atividade.lucroRecebido || 0} AKZ</p>
+                </div>`;
+            }).join("");
+
+            document.getElementById("lucro-total").innerText = `${lucroTotal.toFixed(2)} AKZ`;
+            document.getElementById("atividades").innerHTML = atividadesHtml || "<p>Sem atividades recentes.</p>";
+        }
+
+        function copiarCodigo() {
+            const codigo = document.getElementById("codigo-convite").innerText;
+            navigator.clipboard.writeText(codigo).then(() => alert("Código copiado!"));
+        }
+
+        atualizarEquipe();
+    </script>
+</body>
+</html>

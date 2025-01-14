@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Login</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #fdf5e6;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+    }
+    .container {
+      background-color: #fff8dc;
+      padding: 20px;
+      border-radius: 8px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+      text-align: center;
+      width: 90%;
+      max-width: 400px;
+    }
+    h1 {
+      color: #ffa500;
+    }
+    input, button {
+      margin: 10px 0;
+      padding: 10px;
+      width: 100%;
+      font-size: 16px;
+    }
+    button {
+      background-color: #ffa500;
+      color: #fff;
+      border: none;
+      cursor: pointer;
+      border-radius: 5px;
+    }
+    button:hover {
+      background-color: #ff8c00;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Login</h1>
+    <form onsubmit="login(event)">
+      <input type="text" id="numeroCelular" placeholder="Número de Celular" maxlength="9" required>
+      <input type="password" id="senha" placeholder="Senha" required>
+      <button type="submit">Entrar</button>
+    </form>
+    <p>Não tem conta? <a href="cadastro.html">Cadastre-se</a></p>
+  </div>
+  <script>
+    function login(event) {
+      event.preventDefault();
+      const numeroCelular = document.getElementById("numeroCelular").value;
+      const senha = document.getElementById("senha").value;
+
+      const usuarios = JSON.parse(localStorage.getItem("usuarios")) || [];
+      const usuarioEncontrado = usuarios.find(
+        (usuario) => usuario.numeroCelular === numeroCelular && usuario.senha === senha
+      );
+
+      if (usuarioEncontrado) {
+        localStorage.setItem("loggedUser", JSON.stringify(usuarioEncontrado));
+        alert("Login bem-sucedido!");
+        window.location.href = "utilizador.html";
+      } else {
+        alert("Número ou senha incorretos!");
+      }
+    }
+  </script>
+</body>
+</html>
+

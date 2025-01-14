@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Início</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background-color: #fdf5e6;
+    }
+
+    .menu-lateral {
+      width: 250px;
+      background-color: #ffa500;
+      height: 100vh;
+      position: fixed;
+      top: 0;
+      left: 0;
+      color: #fff;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding-top: 20px;
+      box-shadow: 2px 0 5px rgba(0, 0, 0, 0.2);
+    }
+
+    .menu-lateral h2 {
+      margin: 0;
+      padding: 10px;
+      font-size: 22px;
+    }
+
+    .menu-lateral a {
+      text-decoration: none;
+      color: #fff;
+      padding: 10px 20px;
+      width: 100%;
+      text-align: center;
+      margin: 10px 0;
+      border-radius: 5px;
+      font-size: 16px;
+      font-weight: bold;
+      transition: background-color 0.3s;
+    }
+
+    .menu-lateral a:hover {
+      background-color: #ff8c00;
+    }
+
+    .conteudo {
+      margin-left: 250px;
+      padding: 20px;
+    }
+
+    .saldo {
+      background-color: #fff;
+      border: 2px solid #ffa500;
+      border-radius: 10px;
+      padding: 20px;
+      text-align: center;
+      font-size: 18px;
+      margin-bottom: 20px;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    }
+
+    .saldo h2 {
+      margin: 0;
+      color: #ffa500;
+    }
+
+    .saldo p {
+      margin: 10px 0 0;
+      color: #333;
+      font-size: 24px;
+      font-weight: bold;
+    }
+
+    .produtos {
+      display: flex;
+      flex-direction: column;
+      gap: 15px;
+    }
+
+    .produto {
+      background-color: #fff;
+      border: 1px solid #ffa500;
+      border-radius: 10px;
+      padding: 15px;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .produto h3 {
+      margin: 0;
+      color: #ffa500;
+      font-size: 18px;
+    }
+
+    .produto p {
+      margin: 5px 0;
+      color: #333;
+    }
+
+    .produto button {
+      background-color: #ffa500;
+      color: #fff;
+      border: none;
+      padding: 10px 20px;
+      border-radius: 5px;
+      cursor: pointer;
+      transition: background-color 0.3s;
+    }
+
+    .produto button:hover {
+      background-color: #ff8c00;
+    }
+  </style>
+</head>
+<body>
+  <div class="menu-lateral">
+    <h2>Menu</h2>
+    <a href="inicio.html">Início</a>
+    <a href="equipe.html">Minha Equipe</a>
+    <a href="registro.html">Registro</a>
+    <a href="deposito.html">Depósito</a>
+    <a href="retirada.html">Retirada</a>
+    <a href="#" onclick="sair()">Sair</a>
+  </div>
+
+  <div class="conteudo">
+    <div class="saldo">
+      <h2>Seu Saldo</h2>
+      <p id="saldo-display">0.00 AKZ</p>
+    </div>
+    <h1>Produtos Disponíveis</h1>
+    <div class="produtos">
+      <div class="produto">
+        <h3>Bot1</h3>
+        <p>Invista 2.500 AKZ e ganhe 8% diariamente por 25 dias.</p>
+        <button onclick="comprarProduto(2500, 'Bot1')">Comprar - 2.500 AKZ</button>
+      </div>
+      <div class="produto">
+        <h3>Bot2</h3>
+        <p>Invista 12.000 AKZ e ganhe 8% diariamente por 25 dias.</p>
+        <button onclick="comprarProduto(12000, 'Bot2')">Comprar - 12.000 AKZ</button>
+      </div>
+      <div class="produto">
+        <h3>Bot3</h3>
+        <p>Invista 25.000 AKZ e ganhe 8% diariamente por 25 dias.</p>
+        <button onclick="comprarProduto(25000, 'Bot3')">Comprar - 25.000 AKZ</button>
+      </div>
+      <div class="produto">
+        <h3>Bot4</h3>
+        <p>Invista 55.000 AKZ e ganhe 8% diariamente por 25 dias.</p>
+        <button onclick="comprarProduto(55000, 'Bot4')">Comprar - 55.000 AKZ</button>
+      </div>
+      <div class="produto">
+        <h3>Bot5</h3>
+        <p>Invista 110.000 AKZ e ganhe 8% diariamente por 25 dias.</p>
+        <button onclick="comprarProduto(110000, 'Bot5')">Comprar - 110.000 AKZ</button>
+      </div>
+      <div class="produto">
+        <h3>Bot6</h3>
+        <p>Invista 300.000 AKZ e ganhe 8% diariamente por 25 dias.</p>
+        <button onclick="comprarProduto(300000, 'Bot6')">Comprar - 300.000 AKZ</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    function atualizarSaldo() {
+      const loggedUser = JSON.parse(localStorage.getItem("loggedUser"));
+      if (!loggedUser) {
+        alert("Faça login para continuar.");
+        window.location.href = "index.html";
+        return;
+      }
+      document.getElementById("saldo-display").innerText = `${loggedUser.saldo.toFixed(2)} AKZ`;
+    }
+
+    function comprarProduto(valor, nomeProduto) {
+      const loggedUser = JSON.parse(localStorage.getItem("loggedUser"));
+      if (!loggedUser) {
+        alert("Faça login para continuar.");
+        window.location.href = "index.html";
+        return;
+      }
+
+      if (loggedUser.saldo < valor) {
+        alert("Saldo insuficiente!");
+        return;
+      }
+
+      loggedUser.saldo -= valor;
+      loggedUser.produtos = loggedUser.produtos || [];
+      loggedUser.produtos.push({
+        nome: nomeProduto,
+        valor,
+        lucroDiario: valor * 0.08,
+        diasRestantes: 25,
+      });
+
+      localStorage.setItem("loggedUser", JSON.stringify(loggedUser));
+      alert(`Você comprou o ${nomeProduto} por ${valor} AKZ!`);
+      atualizarSaldo();
+    }
+
+    function sair() {
+      localStorage.removeItem("loggedUser");
+      alert("Você saiu!");
+      window.location.href = "index.html";
+    }
+
+    // Atualizar o saldo ao carregar a página
+    window.onload = atualizarSaldo;
+  </script>
+</body>
+</html>

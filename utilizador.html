@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Utilizador</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background-color: #fdf5e6;
+    }
+
+    .menu-lateral {
+      width: 250px;
+      background-color: #ffa500;
+      height: 100vh;
+      position: fixed;
+      top: 0;
+      left: 0;
+      color: #fff;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding-top: 20px;
+      box-shadow: 2px 0 5px rgba(0, 0, 0, 0.2);
+    }
+
+    .menu-lateral h2 {
+      margin: 0;
+      padding: 10px;
+      font-size: 22px;
+    }
+
+    .menu-lateral a {
+      text-decoration: none;
+      color: #fff;
+      padding: 10px 20px;
+      width: 100%;
+      text-align: center;
+      margin: 10px 0;
+      border-radius: 5px;
+      font-size: 16px;
+      font-weight: bold;
+      transition: background-color 0.3s;
+    }
+
+    .menu-lateral a:hover {
+      background-color: #ff8c00;
+    }
+
+    .conteudo {
+      margin-left: 250px;
+      padding: 20px;
+    }
+
+    .conteudo h1 {
+      color: #ffa500;
+    }
+
+    .conteudo p {
+      font-size: 18px;
+      color: #333;
+    }
+
+    button {
+      background-color: #ffa500;
+      color: #fff;
+      border: none;
+      padding: 10px 20px;
+      font-size: 16px;
+      cursor: pointer;
+      border-radius: 5px;
+      margin-top: 20px;
+    }
+
+    button:hover {
+      background-color: #ff8c00;
+    }
+  </style>
+</head>
+<body>
+  <div class="menu-lateral">
+    <h2>Menu</h2>
+    <a href="inicio.html">Início</a>
+    <a href="equipe.html">Minha Equipe</a>
+    <a href="registro.html">Registro</a>
+    <a href="deposito.html">Depósito</a>
+    <a href="retirada.html">Retirada</a>
+    <a href="#" onclick="sair()">Sair</a>
+  </div>
+
+  <div class="conteudo">
+    <h1>Bem-vindo ao Painel</h1>
+    <p>Saldo Atual: <span id="saldo">0 AKZ</span></p>
+  </div>
+
+  <script>
+    document.addEventListener("DOMContentLoaded", () => {
+      const loggedUser = JSON.parse(localStorage.getItem("loggedUser"));
+      if (!loggedUser) {
+        alert("Faça login para continuar.");
+        window.location.href = "index.html";
+        return;
+      }
+      document.getElementById("saldo").textContent = `${loggedUser.saldo} AKZ`;
+    });
+
+    function sair() {
+      localStorage.removeItem("loggedUser");
+      alert("Você saiu!");
+      window.location.href = "index.html";
+    }
+  </script>
+</body>
+</html>

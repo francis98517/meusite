@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cadastro</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #fffbe6;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+        .container {
+            background-color: #ffec99;
+            border-radius: 8px;
+            padding: 20px;
+            width: 300px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        h2 {
+            text-align: center;
+            color: #333;
+        }
+        label {
+            display: block;
+            margin-top: 10px;
+            color: #555;
+        }
+        input {
+            width: 100%;
+            padding: 8px;
+            margin-top: 5px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+        button {
+            width: 100%;
+            padding: 10px;
+            background-color: #ffcc33;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            margin-top: 15px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #ffb300;
+        }
+        .link {
+            text-align: center;
+            margin-top: 10px;
+        }
+        .link a {
+            text-decoration: none;
+            color: #007bff;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>Cadastro</h2>
+        <label for="numero">Número de Celular</label>
+        <input type="text" id="numero" placeholder="Digite seu número (9 dígitos)">
+        <label for="senha">Senha</label>
+        <input type="password" id="senha" placeholder="Digite sua senha">
+        <label for="codigoConvite">Código de Convite (opcional)</label>
+        <input type="text" id="codigoConvite" placeholder="Digite o código de convite">
+        <button onclick="cadastrarUsuario()">Cadastrar</button>
+        <div class="link">
+            <a href="login.html">Já tem conta? Faça login</a>
+        </div>
+    </div>
+
+    <script>
+        function cadastrarUsuario() {
+            const numero = document.getElementById("numero").value.trim();
+            const senha = document.getElementById("senha").value.trim();
+            const codigoConvite = document.getElementById("codigoConvite").value.trim();
+
+            if (!numero || !senha) {
+                alert("Por favor, preencha todos os campos.");
+                return;
+            }
+
+            if (numero.length !== 9 || !numero.startsWith("9") || isNaN(numero)) {
+                alert("O número de celular deve ter 9 dígitos e começar com '9'.");
+                return;
+            }
+
+            const usuarios = JSON.parse(localStorage.getItem("usuarios")) || [];
+            const usuarioExistente = usuarios.find(u => u.numero === numero);
+
+            if (usuarioExistente) {
+                alert("Número de celular já cadastrado.");
+                return;
+            }
+
+            if (codigoConvite) {
+                const donoDoConvite = usuarios.find(u => u.numero === codigoConvite);
+                if (!donoDoConvite) {
+                    alert("Código de convite inválido.");
+                    return;
+                }
+            }
+
+            const novoUsuario = {
+                numero,
+                senha,
+                saldo: 0,
+                atividadesEquipe: [],
+            };
+
+            usuarios.push(novoUsuario);
+            localStorage.setItem("usuarios", JSON.stringify(usuarios));
+            alert("Cadastro realizado com sucesso!");
+            window.location.href = "login.html";
+        }
+    </script>
+</body>
+</html>
